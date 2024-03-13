@@ -1,0 +1,96 @@
+asyncapi: 2.6.0
+#Info of the application
+info:
+  title: Ecommerce User
+  version: '1.0'
+  description: Whenever user updated it publish data
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+channels:
+  ecommerce.sign-ups.user_signedup:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user signed up in the system
+      operationId: UserSignedUp
+      message:
+        $ref: "#/components/messages/UserSignedUp"
+  ecommerce.update-user.user_update:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user logined up in the system
+      operationId: UpdateUser
+      message:
+        $ref: "#/components/messages/UserSignedUp"
+  ecommerce.delete-user.user_delete:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user logined up in the system
+      operationId: DeleteUser
+      message:
+        $ref: "#/components/messages/UserSignedUp"    
+
+
+components:
+  messages:
+    UserSignedUp:
+      name: UserSignedUp
+      title: user updated event
+      summary: Inform about a user updated in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/UserSignedUpPayload'
+
+  schemas:
+    UserSignedUpPayload:
+      title: The signed up user object
+      type: object
+      description: The user object holds all the data related to the signed-up student
+      required:
+        - uuid
+        - user_name
+        - email
+        - password
+      
+      properties: 
+        uuid:
+          type: string
+          format: uuid
+          description: Unique Id for Object
+        user_name:
+          type: string
+          description: User Name
+        password:
+          type: string
+          description: The password for the user account
+        email:
+          type: string
+          description: An Email Address
+          example: user_name@domain.com
+        role:
+          type: string
+          description: type of role user have  
+          example: customer
+        createdAt:
+          type: string
+          description: The created date
+          format: date-time
+        updatedAt:
+          type: string
+          description: updated date
+          format: date-time
+        
+  
+ 

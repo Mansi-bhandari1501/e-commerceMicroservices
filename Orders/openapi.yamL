@@ -1,0 +1,628 @@
+openapi: "3.0.0"
+info:
+  title: Orders
+
+  version: "1.0.0"
+# security:
+#      - JWT: []
+servers:
+  - url: http://localhost:6000
+paths:
+  /orders:
+   post:
+      tags:
+        - Orders
+      summary: create order
+      description: create new order 
+      parameters:
+        - name: 'Authorization'
+          in: header
+          required: true
+          description: JWT token
+          schema:
+            type: string
+            format: string
+            example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+      requestBody:
+        description: Request to create new order
+        content:
+          application/form-data:
+            schema:
+              $ref: '#/components/schemas/ordersSchema'
+        required: true
+      responses:
+        '200':
+          description: successfully created orde
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ordersSchema'
+        
+        '404':
+          description: 'Not Found: This response is shown if the request for information is not there or it could not be imported'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+   get:
+      summary: Get all orders
+      description: Get an existing test
+      parameters:
+        - name: 'Authorization'
+          in: header
+          required: true
+          description: JWT token
+          schema:
+            type: string
+            format: string
+            example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+      tags:
+        - Orders
+      # parameters:
+      #   - name: 'advisorId'
+      #     in: path
+      #     required: true
+      #     description: The UUID of advisor
+      #     example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      #     schema:
+      #       type: string
+      #       format: uuid
+      responses:
+        "200":
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ordersSchema'
+        "400":
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: The provided postId is not valid
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Post not found
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+
+  /orders/{orderId}:
+   get:
+      summary: Get particular order 
+      description: Get single order
+      parameters:
+        - name: 'orderId'
+          in: path
+          required: true
+          description: The UUID of the order
+          schema:
+            type: string
+            format: string
+            example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+
+        - name: 'Authorization'
+          in: header
+          required: true
+          description: JWT token
+          schema:
+            type: string
+            format: string
+            example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+      tags:
+        - Orders
+      # parameters:
+      #   - name: 'advisorId'
+      #     in: path
+      #     required: true
+      #     description: The UUID of advisor
+      #     example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      #     schema:
+      #       type: string
+      #       format: uuid
+      responses:
+        "200":
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ordersSchema'
+        "400":
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: The provided orderId is not valid
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Post not found
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+   patch:
+      tags:
+        - Orders
+      parameters:
+        - name: 'OrderId'
+          in: path
+          required: true
+          description: The UUID of Order
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          schema:
+            type: string
+            format: uuid
+        - name: 'Authorization'
+          in: header
+          required: true
+          description: JWT token
+          schema:
+            type: string
+            format: string
+            example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+      summary: update the existing order
+      description: update the existing order
+      responses:
+        '200':
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Order updated successfully.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Order not found
+        '400':
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: The provided OrderId is not valid, 1234
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+ 
+   delete:
+      tags:
+        - Orders
+      parameters:
+        - name: 'orderId'
+          in: path
+          required: true
+          description: The UUID of order
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          schema:
+            type: string
+            format: uuid
+
+        - name: 'Authorization'
+          in: header
+          required: true
+          description: JWT token
+          schema:
+            type: string
+            format: string
+            example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+      summary: Delete the order
+      description: Deletes the order and set the status to inactive. Returns a message after deleting the post
+      requestBody:
+        description: Request to delete order
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deletedBy:
+                  type: string
+                  example: user@zenmonk.tech    
+        required: true
+      responses:
+        '200':
+          description: order deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: order deleted successfully.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: order not found
+        '400':
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: The provided orderId is not valid.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  
+  
+
+
+components:
+  schemas:
+    ordersSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        user:
+          type: string    
+        shipping_address:
+          type: string
+        bill:
+          type: number
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation date and time
+          example: "2023-07-25T08:30:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: Updation date and time
+          example: "2023-07-25T08:30:00Z"       
+
+
+
+    
+         
+       
+    # FetchAllPostsResponse:
+    #  type: object
+    #  properties:
+    #   success:
+    #     type: string
+    #     example: true
+    #   message:
+    #     type: string
+    #     example: 
+    #   getposts:
+    #       type: array
+    #       items: 
+    #         type: object
+    #         $ref: '#/components/schemas/postsSchema'
+
+    # FetchPostsResponse:
+    #  type: object
+    #  properties:
+    #   success:
+    #     type: string
+    #     example: true
+    #   message:
+    #     type: string
+    #     example: 
+    #   getpost:
+    #       type: object
+    #       $ref: '#/components/schemas/postsSchema'
+
+    # FetchCommentResponse:
+    #  type: object
+    #  properties:
+    #   success:
+    #     type: string
+    #     example: true 
+    #   getComment:
+    #       type: object
+    #       $ref: '#/components/schemas/commentsSchema'
+
+    # createCommentResponse:
+    #  type: object
+    #  properties:
+    #   success:
+    #     type: string
+    #     example: true
+    #   getpost:
+    #       type: object
+    #       $ref: '#/components/schemas/commentsSchema'
+
+    # createReactionResponse:
+    #  type: object
+    #  properties:
+    #   success:
+    #     type: string
+    #     example: true
+    #   getpost:
+    #       type: object
+    #       $ref: '#/components/schemas/reactionsSchema'
+
+
+    # loginResponse:
+    #   type: object
+    #   properties:
+    #     success:
+    #       type: string
+    #       example: true
+    #     message:
+    #       type: string
+    #       example: login Successful
+    #     data:
+    #       type: array
+    #       items: 
+    #         type: object
+    #         $ref: '#/components/schemas/usersSchema'
+
+    # createPostResponse:
+    #   type: object
+    #   properties:
+    #     success:
+    #       type: string
+    #       example: true
+    #     Post:
+    #       type: array
+    #       items: 
+    #         type: object
+    #         $ref: '#/components/schemas/postsSchema'
+
+    # FetchUsersResponse:
+    #   type: object
+    #   properties:
+    #     data:
+    #       type: array
+    #       items: 
+    #         type: object
+    #         $ref: '#/components/schemas/usersSchema'
+
+    # FetchCommentsResponse:
+    #   type: object
+    #   properties:
+    #     data:
+    #       type: array
+    #       items: 
+    #         type: object
+    #         $ref: '#/components/schemas/commentsSchema'
+
+    # FetchReactionsResponse:
+    #   type: object
+    #   properties:
+    #     data:
+    #       type: array
+    #       items: 
+    #         type: object
+    #         $ref: '#/components/schemas/reactionsSchema'
+      
+    # LoginRequest:
+    #   type: object
+    #   properties:
+    #     _id:
+    #       type: string
+    #       format: uuid
+    #     name:
+    #       type: string
+    #     username:
+    #       type: string
+    #     email:
+    #       type: string
+    #       format: email
+    #     password:
+    #       type: string
+    #       format: password
+    #   required:
+    #     - email
+    #     - password  
+              
+    # createPostRequest:
+    #   type: object
+    #   properties:
+    #     userid:
+    #       type: string
+    #       format: uuid
+    #     title:
+    #       type: string
+    #     body:
+    #       type: string
+    #     images:
+    #       type: string
+    #       format: images
+       
+    #   required:
+    #     - userid
+    #     - id        
+    #     - body    
+
+    # createCommentRequest:
+    #   type: object
+    #   properties:
+    #     userid:
+    #       type: string
+    #       format: uuid
+    #     postid:
+    #       type: string
+    #       format: uuid
+    #     body:
+    #       type: string
+    #   required:
+    #     - userid
+    #     - postid        
+    #     - body        
+
+    # createReactionRequest:
+    #   type: object
+    #   properties:
+    #     userid:
+    #       type: string
+    #       format: uuid
+    #     postid:
+    #       type: string
+    #       format: uuid
+    #     type::
+    #       type: string
+    #   required:
+    #     - userid
+    #     - postid        
+    #     - type        
+      
+    # RegisterRequest:
+    #   type: object
+    #   properties:
+    #     _id:
+    #       type: string
+    #       format: uuid
+    #     name:
+    #       type: string
+    #     username:
+    #       type: string
+    #     email:
+    #       type: string
+    #       format: email
+    #     password:
+    #       type: string
+    #       format: password
+    #     # status:
+    #     #   type: string
+    #     #   enum:
+    #     #     - active
+    #     #     - inactive
+    #     #   example: active
+    #     address:
+    #      type: object
+    #      properties:
+    #       street:
+    #         type: string  
+    #         example: null
+    #       suite:
+    #         type: string
+    #         example: null
+    #       city:
+    #         type: string
+    #         example: null
+    #       Zipcode:
+    #         type: string
+    #         example: null
+    #       geo:
+    #         type: object
+    #         properties:
+    #          lat:
+    #           type: string
+    #           example: null
+    #          lng:
+    #           type: string
+    #           example: null
+    #     phone:
+    #       type: string
+    #       example: null
+    #     website:
+    #       type: string
+    #       example: null
+    #     company:
+    #       type: array
+    #       items:
+    #         type: object
+    #         properties:
+    #          companyname:
+    #           type: string
+    #           example: null
+    #          catchPhrase:
+    #           type: string
+    #           example: null
+    #          bs:
+    #           type: string
+    #           example: null
+    #     createdBy:
+    #       type: string
+    #     deletedBy:
+    #       type: string
+    #       format: uuid
+    #       example: null
+    #     createdAt:
+    #       type: string
+    #       format: date-time
+    #       description: Creation date and time
+    #       example: "2023-07-25T08:30:00Z"
+    #     updatedAt:
+    #       type: string
+    #       format: date-time
+    #       description: Updation date and time
+    #       example: "2023-07-25T08:30:00Z"
+    #   required:
+    #     - username
+    #     - email
+    #     - password

@@ -1,0 +1,101 @@
+asyncapi: 2.6.0
+#Info of the application
+info:
+  title: Ecommerce Products
+  version: '1.0'
+  description: Add Products
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+channels:
+  ecommerce.products.product_add:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a product is added in the system
+      operationId: ProductAdd
+      message:
+        $ref: "#/components/messages/ProductAdd"
+  ecommerce.update-product.product_update:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user logined up in the system
+      operationId: UpdateUser
+      message:
+        $ref: "#/components/messages/ProductAdd"
+  ecommerce.delete-product.product_delete:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user logined up in the system
+      operationId: DeleteUser
+      message:
+        $ref: "#/components/messages/ProductAdd"    
+
+
+components:
+  messages:
+    ProductAdd:
+      name: ProductAdd
+      title: product updated event
+      summary: Inform about a product updated in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/ProductAddPayload'
+
+  schemas:
+    ProductAddPayload:
+      title: The signed up user object
+      type: object
+      description: The user object holds all the data related to the signed-up student
+      required:
+        - uuid
+        - productName
+        - price
+        - category
+        - seller
+      
+      properties: 
+        uuid:
+          type: string
+          format: uuid
+          description: Unique Id for Object
+        productName:
+          type: string
+          description: product Name
+        quantity:
+          type: number
+          description: quantity of product
+        price:
+          type: number
+          description: price of product
+        description:
+          type: string
+          description: about and specifications of the product       
+        productImage:
+          type: string
+          description: images of the product
+        seller:
+          type: string
+          description: information about the seller of product
+        createdAt:
+          type: string
+          description: The created date
+          format: date-time
+        updatedAt:
+          type: string
+          description: updated date
+          format: date-time
+        
+  
+ 

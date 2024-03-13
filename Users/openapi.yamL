@@ -1,0 +1,131 @@
+openapi: "3.0.0"
+info:
+  title: LinkedIn Clone
+
+  version: "1.0.0"
+# security:
+#      - JWT: []
+servers:
+  - url: http://localhost:9000
+paths:
+  /users/register:
+    post:
+      tags:
+        - Users
+      summary: Create a new user
+      description: Creates a new user
+      requestBody:
+        description: Request to create new user
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/usersSchema'
+        required: true
+      responses:
+        '201':
+          description: user Register Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/usersSchema'
+        '409':
+            description: Duplicate key error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: The provided email already exists
+        '404':
+          description: 'Not Found: This response is shown if the request for information is not there or it could not be imported'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  /users:                
+    get:
+      summary: Get a list of users
+      description: Returns an array containing all the users
+      operationId: getUsers
+      tags:
+        - Users
+      responses:
+        "200":
+          description: get users data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/usersSchema'
+        "400":
+          description: Invalid request payload
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  
+  /users/login:
+   post:
+      tags:
+        - Users
+      summary: login existing user
+      description: login existing user
+      requestBody:
+        description: Request to login the user
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/usersSchema'
+        required: true
+      responses:
+        '200':
+          description: login successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/usersSchema'
+        
+        '404':
+          description: 'Not Found: This response is shown if the request for information is not there or it could not be imported'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+
+components:
+  schemas:
+    usersSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password

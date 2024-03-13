@@ -1,0 +1,364 @@
+openapi: "3.0.0"
+info:
+  title: products
+
+  version: "1.0.0"
+# security:
+#      - JWT: []
+servers:
+  - url: http://localhost:8000
+paths:
+  /products:
+   post:
+      tags:
+        - Products
+      summary: create product
+      description: create new product 
+      parameters:
+        - name: 'Authorization'
+          in: header
+          required: true
+          description: JWT token
+          schema:
+            type: string
+            format: string
+            example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+      requestBody:
+        description: Request to create new product
+        content:
+          application/form-data:
+            schema:
+              $ref: '#/components/schemas/productsSchema'
+        required: true
+      responses:
+        '200':
+          description: successfully created orde
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/productsSchema'
+        
+        '404':
+          description: 'Not Found: This response is shown if the request for information is not there or it could not be imported'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+   get:
+      summary: Get all products
+      description: Get an existing test
+      parameters:
+        - name: 'Authorization'
+          in: header
+          required: true
+          description: JWT token
+          schema:
+            type: string
+            format: string
+            example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+      tags:
+        - Products
+      # parameters:
+      #   - name: 'advisorId'
+      #     in: path
+      #     required: true
+      #     description: The UUID of advisor
+      #     example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      #     schema:
+      #       type: string
+      #       format: uuid
+      responses:
+        "200":
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/productsSchema'
+        "400":
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: The provided postId is not valid
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Post not found
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+
+  /products/{productId}:
+   get:
+      summary: Get particular product 
+      description: Get single product
+      parameters:
+        - name: 'productId'
+          in: path
+          required: true
+          description: The UUID of the product
+          schema:
+            type: string
+            format: string
+            example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+
+        - name: 'Authorization'
+          in: header
+          required: true
+          description: JWT token
+          schema:
+            type: string
+            format: string
+            example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+      tags:
+        - Products
+      # parameters:
+      #   - name: 'advisorId'
+      #     in: path
+      #     required: true
+      #     description: The UUID of advisor
+      #     example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      #     schema:
+      #       type: string
+      #       format: uuid
+      responses:
+        "200":
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/productsSchema'
+        "400":
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: The provided productId is not valid
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Post not found
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+   patch:
+      tags:
+        - Products
+      parameters:
+        - name: 'productId'
+          in: path
+          required: true
+          description: The UUID of product
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          schema:
+            type: string
+            format: uuid
+        - name: 'Authorization'
+          in: header
+          required: true
+          description: JWT token
+          schema:
+            type: string
+            format: string
+            example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+      summary: update the existing product
+      description: update the existing product
+      responses:
+        '200':
+          description: product updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: product updated successfully.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: product not found
+        '400':
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: The provided productId is not valid, 1234
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+ 
+   delete:
+      tags:
+        - Products
+      parameters:
+        - name: 'productId'
+          in: path
+          required: true
+          description: The UUID of product
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          schema:
+            type: string
+            format: uuid
+
+        - name: 'Authorization'
+          in: header
+          required: true
+          description: JWT token
+          schema:
+            type: string
+            format: string
+            example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+      summary: Delete the product
+      description: Deletes the product and set the status to inactive. Returns a message after deleting the post
+      requestBody:
+        description: Request to delete product
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deletedBy:
+                  type: string
+                  example: user@zenmonk.tech    
+        required: true
+      responses:
+        '200':
+          description: product deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: product deleted successfully.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: product not found
+        '400':
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: The provided productId is not valid.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  
+  
+
+
+components:
+  schemas:
+    productsSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        productName:
+          type: string    
+        quantity:
+          type: number
+        rating:
+          type: number
+        reveiw:
+          type: string    
+        price:
+          type: number
+        description:
+          type: string
+        productImage:
+          type: string
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation date and time
+          example: "2023-07-25T08:30:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: Updation date and time
+          example: "2023-07-25T08:30:00Z"       
+
+
+
+    
