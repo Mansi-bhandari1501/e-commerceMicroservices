@@ -1,0 +1,9 @@
+
+{
+    "role":{
+        "customer":[],
+        "vendor":[],
+        "admin":[],
+        "deliveryPatner":[]
+    }	
+  }

@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema({
         required: true,
     }],
     bill:{
-        type:Number,
+        type:String,
     }, 
     products:[{
         type:String

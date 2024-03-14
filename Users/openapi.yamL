@@ -1,12 +1,12 @@
 openapi: "3.0.0"
 info:
-  title: LinkedIn Clone
+  title: User Server
 
   version: "1.0.0"
 # security:
 #      - JWT: []
 servers:
-  - url: http://localhost:9000
+  - url: http://localhost:8001
 paths:
   /users/register:
     post:
@@ -19,7 +19,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/usersSchema'
+                $ref: '#/components/schemas/userRequestBody'
         required: true
       responses:
         '201':
@@ -27,7 +27,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/usersSchema'
+                $ref: '#/components/schemas/userResponseBody'
         '409':
             description: Duplicate key error
             content:
@@ -88,7 +88,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/usersSchema'
+                $ref: '#/components/schemas/userRequestBody'
         required: true
       responses:
         '200':
@@ -96,7 +96,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/usersSchema'
+                $ref: '#/components/schemas/userLoginResponseBody'
         
         '404':
           description: 'Not Found: This response is shown if the request for information is not there or it could not be imported'
@@ -129,3 +129,37 @@ components:
         password:
           type: string
           format: password
+
+
+    userRequestBody:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    userResponseBody:
+      
+      type: object
+      properties:
+        success: 
+          type: string
+          default: user registered successfully
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+    userLoginResponseBody:
+      
+      type: object
+      properties:
+        success: 
+          type: string
+          default: user loggedin successfully
+       
+       

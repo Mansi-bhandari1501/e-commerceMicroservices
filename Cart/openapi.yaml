@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  title: Orders
+  title: Cart
 
   version: "1.0.0"
 # security:
@@ -8,12 +8,12 @@ info:
 servers:
   - url: http://localhost:8004
 paths:
-  /orders:
+  /cart:
    post:
       tags:
-        - Orders
-      summary: create order
-      description: create new order 
+        - Cart
+      summary: create Cart
+      description: create new Cart 
       parameters:
         - name: 'Authorization'
           in: header
@@ -24,11 +24,11 @@ paths:
             format: string
             example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
       requestBody:
-        description: Request to create new order
+        description: Request to create new Cart
         content:
           application/form-data:
             schema:
-              $ref: '#/components/schemas/ordersRequestBody'
+              $ref: '#/components/schemas/cartRequestBody'
         required: true
       responses:
         '200':
@@ -36,7 +36,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ordersResponseBody'
+                $ref: '#/components/schemas/cartResponseBody'
         
         '404':
           description: 'Not Found: This response is shown if the request for information is not there or it could not be imported'
@@ -51,7 +51,7 @@ paths:
                     type: string
                     example: Internal server error
    get:
-      summary: Get all orders
+      summary: Get all cart
       description: Get an existing test
       parameters:
         - name: 'Authorization'
@@ -63,7 +63,7 @@ paths:
             format: string
             example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
       tags:
-        - Orders
+        - Cart
       # parameters:
       #   - name: 'advisorId'
       #     in: path
@@ -79,7 +79,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ordersResponseBody'
+                $ref: '#/components/schemas/cartResponseBody'
         "400":
           description: Invalid request payload
           content:
@@ -111,15 +111,15 @@ paths:
                     type: string
                     example: Internal server error
 
-  /orders/{orderId}:
+  /cart/{CartId}:
    get:
-      summary: Get particular order 
-      description: Get single order
+      summary: Get particular Cart 
+      description: Get single Cart
       parameters:
-        - name: 'orderId'
+        - name: 'CartId'
           in: path
           required: true
-          description: The UUID of the order
+          description: The UUID of the Cart
           schema:
             type: string
             format: string
@@ -134,7 +134,7 @@ paths:
             format: string
             example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
       tags:
-        - Orders
+        - Cart
       # parameters:
       #   - name: 'advisorId'
       #     in: path
@@ -150,7 +150,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ordersSchema'
+                $ref: '#/components/schemas/cartSchema'
         "400":
           description: Invalid request payload
           content:
@@ -160,7 +160,7 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: The provided orderId is not valid
+                    example: The provided CartId is not valid
         '404':
           description: Not Found
           content:
@@ -183,12 +183,12 @@ paths:
                     example: Internal server error
    patch:
       tags:
-        - Orders
+        - Cart
       parameters:
-        - name: 'OrderId'
+        - name: 'CartId'
           in: path
           required: true
-          description: The UUID of Order
+          description: The UUID of Cart
           example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
           schema:
             type: string
@@ -201,11 +201,11 @@ paths:
             type: string
             format: string
             example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
-      summary: update the existing order
-      description: update the existing order
+      summary: update the existing Cart
+      description: update the existing Cart
       responses:
         '200':
-          description: Order updated successfully
+          description: Cart updated successfully
           content:
             application/json:
               schema:
@@ -213,7 +213,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Order updated successfully.
+                    example: Cart updated successfully.
         '404':
           description: Not Found
           content:
@@ -223,7 +223,7 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: Order not found
+                    example: Cart not found
         '400':
           description: Invalid request payload
           content:
@@ -233,7 +233,7 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: The provided OrderId is not valid, 1234
+                    example: The provided CartId is not valid, 1234
         '500':
           description: Internal server error
           content:
@@ -247,12 +247,12 @@ paths:
  
    delete:
       tags:
-        - Orders
+        - Cart
       parameters:
-        - name: 'orderId'
+        - name: 'CartId'
           in: path
           required: true
-          description: The UUID of order
+          description: The UUID of Cart
           example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
           schema:
             type: string
@@ -266,10 +266,10 @@ paths:
             type: string
             format: string
             example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
-      summary: Delete the order
-      description: Deletes the order and set the status to inactive. Returns a message after deleting the post
+      summary: Delete the Cart
+      description: Deletes the Cart and set the status to inactive. Returns a message after deleting the post
       requestBody:
-        description: Request to delete order
+        description: Request to delete Cart
         content:
           application/json:
             schema:
@@ -281,7 +281,7 @@ paths:
         required: true
       responses:
         '200':
-          description: order deleted successfully
+          description: Cart deleted successfully
           content:
             application/json:
               schema:
@@ -289,7 +289,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: order deleted successfully.
+                    example: Cart deleted successfully.
         '404':
           description: Not Found
           content:
@@ -299,7 +299,7 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: order not found
+                    example: Cart not found
         '400':
           description: Invalid request payload
           content:
@@ -309,7 +309,7 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: The provided orderId is not valid.
+                    example: The provided CartId is not valid.
         '500':
           description: Internal server error
           content:
@@ -326,7 +326,7 @@ paths:
 
 components:
   schemas:
-    ordersSchema:
+    cartSchema:
       type: object
       properties:
         _id:
@@ -357,319 +357,32 @@ components:
           description: Updation date and time
           example: "2023-07-25T08:30:00Z"     
 
-    ordersResponseBody:
+    cartResponseBody:
       type: object
       properties:
         userid:
           type: string    
-        shipping_address:
-          type: string
-        products:
-          type: array
-          items:
-           type: string
-            
-
-        bill:
-          type: number
-        createdBy:
-          type: string
+        productId:
+           type: array
+           items: 
+             type: string
         createdAt:
           type: string
+          description: The created date
           format: date-time
-          description: Creation date and time
-          example: "2023-07-25T08:30:00Z"
         updatedAt:
           type: string
+          description: updated date
           format: date-time
-          description: Updation date and time
-          example: "2023-07-25T08:30:00Z"       
 
-    ordersRequestBody:
+    cartRequestBody:
       type: object
       properties:
         userid:
           type: string       
-        shipping_address:
-          type: string
         products:
           type: array
           items:
            type: string
        
 
-
-
-    
-         
-       
-    # FetchAllPostsResponse:
-    #  type: object
-    #  properties:
-    #   success:
-    #     type: string
-    #     example: true
-    #   message:
-    #     type: string
-    #     example: 
-    #   getposts:
-    #       type: array
-    #       items: 
-    #         type: object
-    #         $ref: '#/components/schemas/postsSchema'
-
-    # FetchPostsResponse:
-    #  type: object
-    #  properties:
-    #   success:
-    #     type: string
-    #     example: true
-    #   message:
-    #     type: string
-    #     example: 
-    #   getpost:
-    #       type: object
-    #       $ref: '#/components/schemas/postsSchema'
-
-    # FetchCommentResponse:
-    #  type: object
-    #  properties:
-    #   success:
-    #     type: string
-    #     example: true 
-    #   getComment:
-    #       type: object
-    #       $ref: '#/components/schemas/commentsSchema'
-
-    # createCommentResponse:
-    #  type: object
-    #  properties:
-    #   success:
-    #     type: string
-    #     example: true
-    #   getpost:
-    #       type: object
-    #       $ref: '#/components/schemas/commentsSchema'
-
-    # createReactionResponse:
-    #  type: object
-    #  properties:
-    #   success:
-    #     type: string
-    #     example: true
-    #   getpost:
-    #       type: object
-    #       $ref: '#/components/schemas/reactionsSchema'
-
-
-    # loginResponse:
-    #   type: object
-    #   properties:
-    #     success:
-    #       type: string
-    #       example: true
-    #     message:
-    #       type: string
-    #       example: login Successful
-    #     data:
-    #       type: array
-    #       items: 
-    #         type: object
-    #         $ref: '#/components/schemas/usersSchema'
-
-    # createPostResponse:
-    #   type: object
-    #   properties:
-    #     success:
-    #       type: string
-    #       example: true
-    #     Post:
-    #       type: array
-    #       items: 
-    #         type: object
-    #         $ref: '#/components/schemas/postsSchema'
-
-    # FetchUsersResponse:
-    #   type: object
-    #   properties:
-    #     data:
-    #       type: array
-    #       items: 
-    #         type: object
-    #         $ref: '#/components/schemas/usersSchema'
-
-    # FetchCommentsResponse:
-    #   type: object
-    #   properties:
-    #     data:
-    #       type: array
-    #       items: 
-    #         type: object
-    #         $ref: '#/components/schemas/commentsSchema'
-
-    # FetchReactionsResponse:
-    #   type: object
-    #   properties:
-    #     data:
-    #       type: array
-    #       items: 
-    #         type: object
-    #         $ref: '#/components/schemas/reactionsSchema'
-      
-    # LoginRequest:
-    #   type: object
-    #   properties:
-    #     _id:
-    #       type: string
-    #       format: uuid
-    #     name:
-    #       type: string
-    #     username:
-    #       type: string
-    #     email:
-    #       type: string
-    #       format: email
-    #     password:
-    #       type: string
-    #       format: password
-    #   required:
-    #     - email
-    #     - password  
-              
-    # createPostRequest:
-    #   type: object
-    #   properties:
-    #     userid:
-    #       type: string
-    #       format: uuid
-    #     title:
-    #       type: string
-    #     body:
-    #       type: string
-    #     images:
-    #       type: string
-    #       format: images
-       
-    #   required:
-    #     - userid
-    #     - id        
-    #     - body    
-
-    # createCommentRequest:
-    #   type: object
-    #   properties:
-    #     userid:
-    #       type: string
-    #       format: uuid
-    #     postid:
-    #       type: string
-    #       format: uuid
-    #     body:
-    #       type: string
-    #   required:
-    #     - userid
-    #     - postid        
-    #     - body        
-
-    # createReactionRequest:
-    #   type: object
-    #   properties:
-    #     userid:
-    #       type: string
-    #       format: uuid
-    #     postid:
-    #       type: string
-    #       format: uuid
-    #     type::
-    #       type: string
-    #   required:
-    #     - userid
-    #     - postid        
-    #     - type        
-      
-    # RegisterRequest:
-    #   type: object
-    #   properties:
-    #     _id:
-    #       type: string
-    #       format: uuid
-    #     name:
-    #       type: string
-    #     username:
-    #       type: string
-    #     email:
-    #       type: string
-    #       format: email
-    #     password:
-    #       type: string
-    #       format: password
-    #     # status:
-    #     #   type: string
-    #     #   enum:
-    #     #     - active
-    #     #     - inactive
-    #     #   example: active
-    #     address:
-    #      type: object
-    #      properties:
-    #       street:
-    #         type: string  
-    #         example: null
-    #       suite:
-    #         type: string
-    #         example: null
-    #       city:
-    #         type: string
-    #         example: null
-    #       Zipcode:
-    #         type: string
-    #         example: null
-    #       geo:
-    #         type: object
-    #         properties:
-    #          lat:
-    #           type: string
-    #           example: null
-    #          lng:
-    #           type: string
-    #           example: null
-    #     phone:
-    #       type: string
-    #       example: null
-    #     website:
-    #       type: string
-    #       example: null
-    #     company:
-    #       type: array
-    #       items:
-    #         type: object
-    #         properties:
-    #          companyname:
-    #           type: string
-    #           example: null
-    #          catchPhrase:
-    #           type: string
-    #           example: null
-    #          bs:
-    #           type: string
-    #           example: null
-    #     createdBy:
-    #       type: string
-    #     deletedBy:
-    #       type: string
-    #       format: uuid
-    #       example: null
-    #     createdAt:
-    #       type: string
-    #       format: date-time
-    #       description: Creation date and time
-    #       example: "2023-07-25T08:30:00Z"
-    #     updatedAt:
-    #       type: string
-    #       format: date-time
-    #       description: Updation date and time
-    #       example: "2023-07-25T08:30:00Z"
-    #   required:
-    #     - username
-    #     - email
-    #     - password

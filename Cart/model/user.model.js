@@ -1,7 +1,16 @@
 import mongoose from "mongoose"
 
 const userCartSchema = new mongoose.Schema({
-    userId:{
+    selleId:{
+        type:String,
+    },
+    userName:{
+        type:String
+    },
+    userAddress:{
+        type:String
+    },
+    phone:{
         type:String,
     },
 },{timestamps: true})

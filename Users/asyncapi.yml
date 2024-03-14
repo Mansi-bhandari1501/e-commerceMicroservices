@@ -1,7 +1,7 @@
 asyncapi: 2.6.0
 #Info of the application
 info:
-  title: Ecommerce User
+  title:  User Server
   version: '1.0'
   description: Whenever user updated it publish data
   license:
@@ -9,35 +9,42 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0
 
 channels:
-  ecommerce.sign-ups.user_signedup:
+  user.user_signedup:
     publish:
       description: The topic on which measured values may be produced
-      summary: Inform about a user signed up in the system
+      summary: Inform about a user logged in the system
       operationId: UserSignedUp
       message:
         $ref: "#/components/messages/UserSignedUp"
-  ecommerce.update-user.user_update:
+  user.user_login:  
     publish:
       description: The topic on which measured values may be produced
       summary: Inform about a user logined up in the system
+      operationId: UserLoggedIn
+      message:
+        $ref: "#/components/messages/UserLoggedIn"
+  user.user_update:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user updated its details in the system
       operationId: UpdateUser
       message:
-        $ref: "#/components/messages/UserSignedUp"
-  ecommerce.delete-user.user_delete:
+        $ref: "#/components/messages/UserUpdated"
+  user.user_delete:
     publish:
       description: The topic on which measured values may be produced
-      summary: Inform about a user logined up in the system
+      summary: Inform about a user deleted in the system
       operationId: DeleteUser
       message:
-        $ref: "#/components/messages/UserSignedUp"    
+        $ref: "#/components/messages/UserDeleted"    
 
 
 components:
   messages:
     UserSignedUp:
       name: UserSignedUp
-      title: user updated event
-      summary: Inform about a user updated in the system
+      title: user register event
+      summary: Inform about a user register in the system
       contentType: application/json
       payload:
         type: object
@@ -51,18 +58,74 @@ components:
             format: date-time
             description: Date that the event was fired
           user:
-            $ref: '#/components/schemas/UserSignedUpPayload'
+            $ref: '#/components/schemas/UserPayload'
+   
+    UserLoggedIn:
+      name: UserSignedUp
+      title: user login event
+      summary: Inform about a user logged in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/UserPayload'
+    
+    UserUpdated:
+      name: UserUpdated
+      title: user updated event
+      summary: Inform about a user updated its details in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/UserPayload'
+    UserDeleted:
+      name: UserDeleted
+      title: user deleted event
+      summary: Inform about a user deleted from the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/UserPayload'
 
   schemas:
-    UserSignedUpPayload:
-      title: The signed up user object
-      type: object
-      description: The user object holds all the data related to the signed-up student
+    UserPayload:
+      # title: The signed up user object
+      # type: object
+      # description: The user object holds all the data related to the signed-up student
       required:
         - uuid
-        - user_name
         - email
         - password
+        - role
       
       properties: 
         uuid:
@@ -79,8 +142,17 @@ components:
           type: string
           description: An Email Address
           example: user_name@domain.com
+        address:
+          type: string
+          description: Address of user
+          example: user_name@domain.com
         role:
           type: string
+          enum:
+            - customer
+            - vendor
+            - admin
+            - deliveryMan
           description: type of role user have  
           example: customer
         createdAt:
@@ -91,6 +163,42 @@ components:
           type: string
           description: updated date
           format: date-time
+        
+    # UserLoggedInPayload:
+    #   title: The signed up user object
+    #   type: object
+    #   description: The user object holds all the data related to the signed-up student
+    #   required:
+    #     - uuid
+    #     - email
+    #     - password
+    #   properties: 
+    #     uuid:
+    #       type: string
+    #       format: uuid
+    #       description: Unique Id for Object
+    #     user_name:
+    #       type: string
+    #       description: User Name
+    #     password:
+    #       type: string
+    #       description: The password for the user account
+    #     email:
+    #       type: string
+    #       description: An Email Address
+    #       example: user_name@domain.com
+    #     role:
+    #       type: string
+    #       description: type of role user have  
+    #       example: customer
+    #     createdAt:
+    #       type: string
+    #       description: The created date
+    #       format: date-time
+    #     updatedAt:
+    #       type: string
+    #       description: updated date
+    #       format: date-time
         
   
  

@@ -5,19 +5,14 @@ const deliverySchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"UserCart" 
     },
-    location:{
-        type: String,
-        required: true,
-    },
-    phone:{
-        type:String,
-    },
     delivery_status:{
-        type:String
+        type:String,
+        enum:["order-Confirmed","Shipped","Out_for_Delivery"]
     },
-    sender:{
-        
-    }
+    products:[{
+        type: String
+    }]
 },{timestamps: true})
+
 const DeliveryModel = mongoose.model('Delivery',deliverySchema);
 export default DeliveryModel;

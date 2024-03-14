@@ -1,0 +1,337 @@
+asyncapi: 2.6.0
+#Info of the application
+info:
+  title:  Delivery Server
+  version: '1.0'
+  description: Delivery details
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+channels:
+ delivery.delivery_created:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a delivery is added in the system
+      operationId: DeliveryCreated
+      message:
+        $ref: "#/components/messages/DeliveryCreated"
+ delivery.delivery_update:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user logined up in the system
+      operationId: UpdateDelivery
+      message:
+        $ref: "#/components/messages/UpdateDelivery"
+ delivery.delivery_delete:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user logined up in the system
+      operationId: DeleteDelivery
+      message:
+        $ref: "#/components/messages/DeleteDelivery"    
+
+ orders.order_add:
+     subscribe:
+      description: The topic on which measured values may be produced
+      summary: Inform about a order is added in the system
+      operationId: OrderCreated
+      message:
+        $ref: "#/components/messages/OrderCreated"
+ order.order_update:
+    subscribe:
+      description: The topic on which measured values may be produced
+      summary: Inform about a   up in the system
+      operationId: UpdateOrder
+      message:
+        $ref: "#/components/messages/UpdateOrder"
+ order.order_cancel:
+    subscribe:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user logined up in the system
+      operationId: CancelOrder
+      message:
+        $ref: "#/components/messages/CancelOrder"
+
+components:
+  messages:
+    DeliveryCreated:
+      name: DeliveryCreated
+      title: delivery created event
+      summary: Inform about a delivery created in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/DeliveryPayload'
+
+    UpdateDelivery:
+      name: UpdateDelivery
+      title: delivery updated event
+      summary: Inform about a delivery updated in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/DeliveryPayload'
+
+    DeleteDelivery:
+      name: DeleteDelivery
+      title: delivery deleted event
+      summary: Inform about a delivery deleted in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/DeliveryPayload'
+
+    OrderCreated:
+      name: OrderCreated
+      title: order created event
+      summary: Inform about a order updated in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/OrderPayload'
+   
+    UpdateOrder:
+      name: UpdateOrder
+      title: order updated event
+      summary: Inform about a order updated in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/OrderPayload'
+   
+    CancelOrder:
+      name: CancelOrder
+      title: order cancelled event
+      summary: Inform about a order updated in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/OrderUserPayload'
+
+  schemas:
+   DeliveryPayload:
+      title: delivery object
+      type: object
+      description: The delivery object holds all the data related to the delivery of particular order
+      required:
+        - uuid
+        - user
+        - shipping_address
+        - bill
+        - products
+        - status
+      
+      properties: 
+        uuid:
+          type: string
+          format: uuid
+          description: Unique Id for Object
+        user:
+          type: string
+          $ref: '#/components/schemas/UserPayload'
+          description: about user 
+        shipping_address:
+          type: string
+          description: quantity of delivery
+        # bill:
+        #   type: string
+        #   description: price of delivery
+        products:
+          type: array 
+          items: 
+            type: string
+        #  description: about and specifications of the delivery       
+        delivery_status:
+          type: string
+          enum:
+            - order-Confirmed
+            - Shipped
+            - Out_for_Delivery
+        createdAt:
+          type: string
+          description: The created date
+          format: date-time
+        updatedAt:
+          type: string
+          description: updated date
+          format: date-time
+  
+   UserPayload:
+      title: The signed up user object
+      type: object
+      description: The user object holds all the data related to the signed-up student
+      required:
+        - uuid
+        - userId
+        - userName
+        - userAddress
+        - phone
+        
+      
+      properties: 
+        uuid:
+          type: string
+          format: uuid
+          description: Unique Id for Object
+        userId:
+          type: string
+          description: receiver Id 
+        userName:
+          type: string
+          description: receiver name
+        userAddress:
+          type: string
+          description: receiver address
+        phone:
+          type: number
+          description: receiver address
+        createdAt:
+          type: string
+          description: The created date
+          format: date-time
+        updatedAt:
+          type: string
+          description: updated date
+          format: date-time  
+          
+   OrderPayload:
+      title: The order object
+      type: object
+      description: The order object holds all the data related to order
+      required:
+        - uuid
+        - user
+        - shipping_address
+        - bill
+        - products
+        - status
+      
+      properties: 
+        uuid:
+          type: string
+          format: uuid
+          description: Unique Id for Object
+        user:
+          type: string
+          $ref: '#/components/schemas/OrderUserPayload'
+          description: about user 
+        shipping_address:
+          type: string
+          description: quantity of order
+        bill:
+          type: string
+          description: price of order
+        products:
+          type: array 
+          items: 
+            type: string
+        #  description: about and specifications of the order       
+        status:
+          type: string
+          enum:
+            - placed
+            - fulfilled
+        createdAt:
+          type: string
+          description: The created date
+          format: date-time
+        updatedAt:
+          type: string
+          description: updated date
+          format: date-time
+        
+   OrderUserPayload:
+      title: The signed up user object
+      type: object
+      description: The user object holds all the data related to the signed-up student
+      required:
+        - uuid
+        - userId
+        - userName
+        - bill
+        - userAddress
+        
+      
+      properties: 
+        uuid:
+          type: string
+          format: uuid
+          description: Unique Id for Object
+        userId:
+          type: string
+          description: order Name
+        userName:
+          type: string
+          description: quantity of order
+        userAddress:
+          type: string
+          description: price of order
+        createdAt:
+          type: string
+          description: The created date
+          format: date-time
+        updatedAt:
+          type: string
+          description: updated date
+          format: date-time  

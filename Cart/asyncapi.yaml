@@ -1,0 +1,430 @@
+asyncapi: 2.6.0
+#Info of the application
+info:
+  title: Cart Service
+  version: '1.0'
+  description: details of products added to cart
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+channels:
+  cart.cart_add:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a cart is added in the system
+      operationId: AddToCart
+      message:
+        $ref: "#/components/messages/AddToCart"
+  cart.cart_update:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user logined up in the system
+      operationId: UpdateCart
+      message:
+        $ref: "#/components/messages/UpdateCart"
+  cart.Cart_delete:
+    publish:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user logined up in the system
+      operationId: DeleteCart
+      message:
+        $ref: "#/components/messages/DeleteCart"  
+          
+  user.user_signedup:
+    subscribe:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user signed up in the system
+      operationId: UserSignedUp
+      message:
+        $ref: "#/components/messages/UserSignedUp"
+  user.user_update:
+    subscribe:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user updated its details in the system
+      operationId: UpdateUser
+      message:
+        $ref: "#/components/messages/UserUpdated"
+  user.user_delete:
+    subscribe:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user deleted in the system
+      operationId: DeleteUser
+      message:
+        $ref: "#/components/messages/UserDeleted" 
+
+
+  products.product_created:
+    subscribe:
+      description: The topic on which measured values may be produced
+      summary: Inform about a product is added in the system
+      operationId: CreateProduct
+      message:
+        $ref: "#/components/messages/ProductCreated"
+  product.product_updated:
+    subscribe:
+      description: The topic on which measured values may be produced
+      summary: Inform about a product updated  in the system
+      operationId: UpdateProduct
+      message:
+        $ref: "#/components/messages/ProductUpdated"
+  product.product_deleted:
+    subscribe:
+      description: The topic on which measured values may be produced
+      summary: Inform about a product deleted up in the system
+      operationId: DeleteProduct
+      message:
+        $ref: "#/components/messages/ProductDeleted"            
+
+
+components:
+  messages:
+    AddToCart:
+      name: AddToCart
+      title: cart created event
+      summary: Inform about a cart updated in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/CartPayload'
+    UpdateCart:
+      name: UpdateCart
+      title: cart updated event
+      summary: Inform about a cart updated in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/CartPayload'
+    DeleteCart:
+      name: DeleteCart
+      title: cart deleted event
+      summary: Inform about a cart updated in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/CartPayload'
+
+    UserSignedUp:
+      name: UserSignedUp
+      title: user updated event
+      summary: Inform about a user updated in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/UserPayload'
+
+    UserUpdated:
+      name: UserUpdated
+      title: user updated event
+      summary: Inform about a user updated its details in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/UserPayload'
+
+    UserDeleted:
+      name: UserDeleted
+      title: user deleted event
+      summary: Inform about a user deleted from the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/UserPayload'    
+
+    ProductCreated:
+      name: ProductCreated
+      title: product created event
+      summary: Inform about a product created in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          product:
+            $ref: '#/components/schemas/ProductPayload'
+    
+    ProductUpdated:
+      name: ProductUpdated
+      title: product updated event
+      summary: Inform about a product updated in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          product:
+            $ref: '#/components/schemas/ProductPayload'
+    
+    ProductDeleted:
+      name: ProductDeleted
+      title: product deleted event
+      summary: Inform about a product deleted in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          product:
+            $ref: '#/components/schemas/ProductPayload'
+
+  schemas:
+   CartPayload:
+      title: The cart object
+      type: object
+      description: The cart object holds all the data related to the products added to cart
+      required:
+        - uuid
+        - user
+        - shipping_address
+        - bill
+        - products
+        - status
+      
+      properties: 
+        uuid:
+          type: string
+          format: uuid
+          description: Unique Id for Object
+        user:
+          type: string
+          $ref: '#/components/schemas/customerPayload'
+          description: about user 
+        # shipping_address:
+        #   type: string
+        #   description: quantity of cart
+        # # bill:
+        # #   type: string
+        # #   description: price of cart
+        # products:
+        #   type: array 
+        #   items: 
+        #     type: string
+        # #  description: about and specifications of the cart       
+        # Cart_status:
+        #   type: string
+        #   enum:
+        #     - order-Confirmed
+        #     - Shipped
+        #     - Out_for_Cart
+        productId:
+           type: array
+           items: 
+             type: string
+        createdAt:
+          type: string
+          description: The created date
+          format: date-time
+        updatedAt:
+          type: string
+          description: updated date
+          format: date-time
+  
+   customerPayload:
+      title: The user object
+      type: object
+      description: The user object holds all the data related to the customer   
+      required:
+        - uuid
+        - userId
+        - userName
+        - userAddress
+        - phone
+        
+      
+      properties: 
+        uuid:
+          type: string
+          format: uuid
+          description: Unique Id for Object
+        userId:
+          type: string
+          description: receiver Id 
+        userName:
+          type: string
+          description: receiver name
+        userAddress:
+          type: string
+          description: receiver address
+        phone:
+          type: number
+          description: receiver address
+        createdAt:
+          type: string
+          description: The created date
+          format: date-time
+        updatedAt:
+          type: string
+          description: updated date
+          format: date-time  
+
+   UserPayload:
+      # title: The signed up user object
+      # type: object
+      # description: The user object holds all the data related to the signed-up student
+      required:
+        - uuid
+        - email
+        - password
+        - role
+      
+      properties: 
+        uuid:
+          type: string
+          format: uuid
+          description: Unique Id for Object
+        user_name:
+          type: string
+          description: User Name
+        password:
+          type: string
+          description: The password for the user account
+        email:
+          type: string
+          description: An Email Address
+          example: user_name@domain.com
+        address:
+          type: string
+          description: Address of user
+          example: user_name@domain.com
+        role:
+          type: string
+          enum:
+            - customer
+            - vendor
+            - admin
+            - deliveryMan
+          description: type of role user have  
+          example: customer
+        createdAt:
+          type: string
+          description: The created date
+          format: date-time
+        updatedAt:
+          type: string
+          description: updated date
+          format: date-time
+
+
+   ProductPayload:
+      title: The Products object
+      type: object
+      description: The user object holds all the data related to the Products
+      required:
+        - uuid
+        - productName
+        - price
+        - category
+        - seller
+      
+      properties: 
+        uuid:
+          type: string
+          format: uuid
+          description: Unique Id for Object
+        productName:
+          type: string
+          description: product Name
+        quantity:
+          type: number
+          description: quantity of product
+        price:
+          type: number
+          description: price of product
+        description:
+          type: string
+          description: about and specifications of the product       
+        productImage:
+          type: string
+          description: images of the product
+        seller:
+          type: string
+          description: information about the seller of product
+        createdAt:
+          type: string
+          description: The created date
+          format: date-time
+        updatedAt:
+          type: string
+          description: updated date
+          format: date-time

@@ -9,33 +9,74 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0
 
 channels:
-  ecommerce.products.product_add:
+  user.user_signedup:
+    subscribe:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user signed up in the system
+      operationId: UserSignedUp
+      message:
+        $ref: "#/components/messages/UserSignedUp"
+  user.user_update:
+    subscribe:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user updated its details in the system
+      operationId: UpdateUser
+      message:
+        $ref: "#/components/messages/UserUpdated"
+  user.user_delete:
+    subscribe:
+      description: The topic on which measured values may be produced
+      summary: Inform about a user deleted in the system
+      operationId: DeleteUser
+      message:
+        $ref: "#/components/messages/UserDeleted" 
+
+  products.product_created:
     publish:
       description: The topic on which measured values may be produced
       summary: Inform about a product is added in the system
-      operationId: ProductAdd
+      operationId: CreateProduct
       message:
-        $ref: "#/components/messages/ProductAdd"
-  ecommerce.update-product.product_update:
+        $ref: "#/components/messages/ProductCreated"
+  product.product_updated:
     publish:
       description: The topic on which measured values may be produced
-      summary: Inform about a user logined up in the system
-      operationId: UpdateUser
+      summary: Inform about a product updated  in the system
+      operationId: UpdateProduct
       message:
-        $ref: "#/components/messages/ProductAdd"
-  ecommerce.delete-product.product_delete:
+        $ref: "#/components/messages/ProductCreated"
+  product.product_deleted:
     publish:
       description: The topic on which measured values may be produced
-      summary: Inform about a user logined up in the system
-      operationId: DeleteUser
+      summary: Inform about a product deleted up in the system
+      operationId: DeleteProduct
       message:
-        $ref: "#/components/messages/ProductAdd"    
-
+        $ref: "#/components/messages/ProductCreated"    
+  
 
 components:
   messages:
-    ProductAdd:
-      name: ProductAdd
+    ProductCreated:
+      name: ProductCreated
+      title: product created event
+      summary: Inform about a product created in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          product:
+            $ref: '#/components/schemas/ProductPayload'
+    
+    ProductUpdated:
+      name: ProductUpdated
       title: product updated event
       summary: Inform about a product updated in the system
       contentType: application/json
@@ -50,14 +91,90 @@ components:
             type: string
             format: date-time
             description: Date that the event was fired
+          product:
+            $ref: '#/components/schemas/ProductPayload'
+    
+    ProductDeleted:
+      name: ProductDeleted
+      title: product deleted event
+      summary: Inform about a product deleted in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          product:
+            $ref: '#/components/schemas/ProductPayload'
+    
+    UserSignedUp:
+      name: UserSignedUp
+      title: user updated event
+      summary: Inform about a user updated in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
           user:
-            $ref: '#/components/schemas/ProductAddPayload'
+            $ref: '#/components/schemas/UserPayload'
+
+    UserUpdated:
+      name: UserUpdated
+      title: user updated event
+      summary: Inform about a user updated its details in the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/UserPayload'
+
+    UserDeleted:
+      name: UserDeleted
+      title: user deleted event
+      summary: Inform about a user deleted from the system
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          uuid:
+            type: string
+            example: 095be615-a8ad-4c33-8e9c-c7612fbf6c9f 
+            description: Unique ID for the Object
+          fired_at:
+            type: string
+            format: date-time
+            description: Date that the event was fired
+          user:
+            $ref: '#/components/schemas/UserPayload'        
 
   schemas:
-    ProductAddPayload:
-      title: The signed up user object
+    ProductPayload:
+      title: The Products object
       type: object
-      description: The user object holds all the data related to the signed-up student
+      description: The user object holds all the data related to the Products
       required:
         - uuid
         - productName
@@ -97,5 +214,50 @@ components:
           description: updated date
           format: date-time
         
-  
- 
+    UserPayload:
+      # title: The signed up user object
+      # type: object
+      # description: The user object holds all the data related to the signed-up student
+      required:
+        - uuid
+        - email
+        - password
+        - role
+      
+      properties: 
+        uuid:
+          type: string
+          format: uuid
+          description: Unique Id for Object
+        user_name:
+          type: string
+          description: User Name
+        password:
+          type: string
+          description: The password for the user account
+        email:
+          type: string
+          description: An Email Address
+          example: user_name@domain.com
+        address:
+          type: string
+          description: Address of user
+          example: user_name@domain.com
+        role:
+          type: string
+          enum:
+            - customer
+            - vendor
+            - admin
+            - deliveryMan
+          description: type of role user have  
+          example: customer
+        createdAt:
+          type: string
+          description: The created date
+          format: date-time
+        updatedAt:
+          type: string
+          description: updated date
+          format: date-time
+        

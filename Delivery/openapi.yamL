@@ -6,7 +6,7 @@ info:
 # security:
 #      - JWT: []
 servers:
-  - url: http://localhost:7000
+  - url: http://localhost:8005
 paths:
   /delivery:
    post:
@@ -28,7 +28,7 @@ paths:
         content:
           application/form-data:
             schema:
-              $ref: '#/components/schemas/deliverySchema'
+              $ref: '#/components/schemas/RequestBody'
         required: true
       responses:
         '200':
@@ -348,8 +348,19 @@ components:
           type: string
           format: date-time
           description: Updation date and time
-          example: "2023-07-25T08:30:00Z"       
+          example: "2023-07-25T08:30:00Z"     
 
 
-
-    
+    RequestBody:
+      type: object
+      properties:
+        orderId:
+          type: string
+        location:
+          type: string    
+        phone:
+          type: number
+        delivery_status:
+          type: string
+          example: confirmed
+       

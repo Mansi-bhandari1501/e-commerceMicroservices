@@ -1,0 +1,67 @@
+openapi: "3.0.0"
+info:
+  title: Acess Control Server
+
+  version: "1.0.0"
+# security:
+#      - JWT: []
+servers:
+  - url: http://localhost:8005
+paths:
+  /access:
+   post:
+      tags:
+        - AcessControl
+      summary: Access control
+     
+      # parameters:
+      #   - name: 'Authorization'
+      #     in: header
+      #     required: true
+      #     description: JWT token
+      #     schema:
+      #       type: string
+      #       format: string
+      #       example: a2f6b8d7-8e5c-4023-913f-6f81d4ca92b0
+      requestBody:
+        description: Request to create new Cart
+        content:
+          application/form-data:
+            schema:
+              # $ref: '#/components/schemas/RequestBody'
+                # $ref: '#/components/schemas/cartResponseBody'
+                type: object
+                properties:
+                  role:
+                    type: string
+                    example: customer
+                  accessNumber:
+                    type: number
+                    example: 1
+        required: true
+      responses:
+        '200':
+          description: successfully created orde
+          content:
+            application/json:
+              schema:
+                # $ref: '#/components/schemas/cartResponseBody'
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Access allowed
+                
+        
+        '404':
+          description: 'Not Found: This response is shown if the request for information is not there or it could not be imported'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
