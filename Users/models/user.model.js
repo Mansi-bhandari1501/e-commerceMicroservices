@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        required: true
+       
     },
     name:{
         type:String,
@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     role:{
         type: String,
-        enum: ["customer", "admin","vendor","deliveryman"]
+        enum: ["customer", "admin","vendor","deliveryPatner"]
     }
 },{timestamps: true})
 const userModel = mongoose.model('user',userSchema);
