@@ -10,12 +10,12 @@ const productSchema = new mongoose.Schema({
         type:Number,
         required: true
     },
-    rating:{
-        type:number,
-    },
-    reveiw:{
-        type:String,
-    },
+    // rating:{
+    //     type:number,
+    // },
+    // reveiw:{
+    //     type:String,
+    // },
     price:{
         type:String,
     },
@@ -28,7 +28,7 @@ const productSchema = new mongoose.Schema({
     category:{
         type: String
     },
-    seller:{
+    sellerId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"seller"    
      },

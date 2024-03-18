@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
   res.json({ message: "Welcome to mern app" });
 });
 
-router.use("/users",userRoutes );
+router.use("/auths",userRoutes );
 
 
 export default router;

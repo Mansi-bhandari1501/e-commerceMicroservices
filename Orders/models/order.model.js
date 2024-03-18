@@ -5,7 +5,7 @@ const orderSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"OrderUser" 
     },
-    shipping_address:[{
+    shippingAddress:[{
         type: String,
         required: true,
     }],

@@ -67,7 +67,7 @@ const authRegister = async (payload) => {
       }
   
       //TOKEN
-      const token = await JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      const token = await JWT.sign({ _id: user._id, role:user.role }, process.env.JWT_SECRET, {
         expiresIn: "7d",
       });
   
