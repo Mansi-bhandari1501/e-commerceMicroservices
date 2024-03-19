@@ -1,10 +1,10 @@
-import { userService } from "../service/index.js";
+import { cartService } from "../service/index.js";
 
 export const registerNewUser = async ({email,role}) => {
     // const {userDetails = {}} = payload
     console.log(email,role)
     try {
-      const response = await userService.registerUser(email,role);
+      // const response = await userService.registerUser(email,role);
       if (!response) {
         throw new Error('User could not be created.');
       }
@@ -14,7 +14,7 @@ export const registerNewUser = async ({email,role}) => {
     }
   };
 
-  const userProcessor ={
+  const cartProcessor ={
     registerNewUser
   }
-  export default userProcessor;    
+  export default cartProcessor;    

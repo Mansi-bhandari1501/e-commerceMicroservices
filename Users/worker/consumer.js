@@ -12,8 +12,8 @@ const processors = {
 async function consumeMessages() {
     const connection = await amqp.connect("amqp://localhost")
     const channel = await connection.createChannel();
-    const exchangeName = configRabbit.rabbitMQ.exchangeName;
-    const exchangeType = configRabbit.rabbitMQ.exchangeType;
+    const exchangeName = process.env.RABBIT_PUB_USER_EXCHANGE_NAME;
+    const exchangeType =  process.env.RABBIT_PUB_USER_EXCHANGE_TYPE;
     await channel.assertExchange(exchangeName, exchangeType);
 
     const q = await channel.assertQueue("usersQueue");
@@ -21,8 +21,7 @@ async function consumeMessages() {
     await channel.bindQueue(q.queue, exchangeName, "hello");
 
     channel.consume(q.queue, async(msg) => {
-        console.log('\n\n================= NEW MESSAGE CONSUMING ====================');
-      console.log('msg: ', 'headers: ', msg?.properties?.headers, 'type: ', msg?.properties?.type, '\n');
+      // console.log('msg: ', 'headers: ', msg?.properties?.headers, 'type: ', msg?.properties?.type, '\n');
 
       const handle_processor = processors[msg?.properties?.type] || processors[msg?.properties?.headers?.type];
 

@@ -1,5 +1,6 @@
 import userModel from "../models/user.model.js";
-
+import Producer from "../worker/producer.js";
+const producer = new Producer();
 const registerUser = async (email,role) => {
     try {
       // const { email, role } = payload
@@ -22,7 +23,13 @@ const registerUser = async (email,role) => {
       // const hashed_password = await hash_password(password);
       //save password
       const user = await new userModel({ email, role }).save();
-  
+      const routingKey = "user"
+      const message ={
+        email: email,
+        status:"fulfilled"
+      }
+      const signature = process.env.RABBIT_PUB_USER_REGISTER_SIGNATURE
+      await producer.publishMessage(routingKey,message,signature);
       return { user };
     } catch (error) {
       throw error;
@@ -32,9 +39,19 @@ const registerUser = async (email,role) => {
 
 export const getUsers = async (payload) => {
     try {
+    
+      const users = userModel.find()
+      console.log(users)
+      return users;
+    } catch (error) {
+      throw error;
+    }
+  }
+export const getUser = async (payload) => {
+    try {
       const {existingUser} = payload.params;
       console.log("USERID=------>", existingUser);
-      const users = userModel.find({ email: { $ne:existingUser} })
+      const users = userModel.find(existingUser)
       console.log(users)
       return users;
     } catch (error) {
@@ -56,10 +73,51 @@ export const getUsers = async (payload) => {
       .limit(resultsPerPage)
       .skip(page * resultsPerPage)
   }
+  export const deleteUser = async (payload) => {
+    console.log(payload)
+
+    try {
+      const { _id } = payload.params;
+  
+      // handle validation here
+  
+      let data = await userModel.findByIdAndDelete(_id, {new: true});
+      console.log("👌👌👌vfdfvdvfdvf---------------------------------------------------------",message)
+      const signature = process.env.RABBIT_PUB_USER_DELETE_SIGNATURE
+      await producer.publishMessage(routingKey,message,signature);
+      return { data };
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  export const updateUser = async (payload) => {
+    // console.log(payload)
+    try {
+      let data = await userModel.findByIdAndUpdate(payload.params, {
+        $set: payload.body,
+      }, {new: true})
+      const routingKey = "user"
+      const message ={
+        data
+      }
+      console.log("👌👌👌vfdfvdvfdvf---------------------------------------------------------",message)
+      const signature = process.env.RABBIT_PUB_USER_UPDATE_SIGNATURE
+      await producer.publishMessage(routingKey,message,signature);
+      return  data ;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+
   const userService = {
     registerUser,
     getUsersPaginated,
-    getUsers
+    getUsers,
+    deleteUser,
+    updateUser,
+    getUser
   }
   
   export default userService;

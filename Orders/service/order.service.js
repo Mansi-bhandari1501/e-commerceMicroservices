@@ -4,20 +4,14 @@ import ordersModel from "../models/order.model.js";
     try {
       let { user, shippingAddress,bill,products,status } = payload.body;
      
-  
-      if (!sellerId || !productName ||!quantity || !price ||category) {
-        throw Object.assign(new Error(), {
-          name: "BAD_REQUEST",
-          message: "Invalid Payload",
-        });
-      }
-  
-      // const files = payload.files;
-  
-      // const image1 = files?.image1 && (files?.image1[0]?.path || null);
-      // const image2 = files?.image2 && (files?.image2[0]?.path || null);
-      // const image3 = files?.image3 && (files?.image3[0]?.path || null);
-      // const image4 = files?.image4 && (files?.image4[0]?.path || null);
+  console.log(payload.body)
+      // if (!user || !shippingAddress ||!products || !bill || !status) {
+      //   throw Object.assign(new Error(), {
+      //     name: "BAD_REQUEST",
+      //     message: "Invalid Payload",
+      //   });
+      // }
+
   
       const newOrderData = {
         user: user,
@@ -52,7 +46,7 @@ import ordersModel from "../models/order.model.js";
     try {
       let data = await ordersModel.findByIdAndUpdate(payload.params, {
         $set: payload.body,
-      }).countDocuments();
+      });
       return { data };
     } catch (error) {
       throw error;
@@ -112,7 +106,6 @@ import ordersModel from "../models/order.model.js";
        const ordersCount = await ordersModel.find().count()
        const order = await ordersModel.find({})
             .sort({ createdAt: 'descending' })
-            .populate('userid',"email firstName lasName")
             .lean()
             .limit(resultsPerPage)
             .skip(page * resultsPerPage)

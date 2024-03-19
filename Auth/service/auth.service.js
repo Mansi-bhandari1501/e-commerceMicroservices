@@ -35,8 +35,7 @@ const authRegister = async (payload) => {
       await producer.publishMessage(routingKey,message,signature);
        console.log("AFTER",message)
       //save password
-      const user = await new authModel({ email, password: hashedPassword ,role})
-      // await user.save();
+      const user = await new authModel({ email, password: hashedPassword ,role}).save();
   
       return { user };
     } catch (error) {
@@ -59,6 +58,10 @@ const authRegister = async (payload) => {
       if (!user) {
         throw Object.assign(new Error(), { name: "BAD_REQUEST", message: 'Email is not registerd' });
       }
+      console.log("wefergsegsrg",user)
+      if (user.status == "pending") {
+        throw Object.assign(new Error(), { name: "BAD_REQUEST", message: 'User is not registerd' });
+      }
   
       const match = await comparePassword(password, user.password);
   
@@ -77,10 +80,40 @@ const authRegister = async (payload) => {
     }
   }
 
+  export const authUpdate = async (payload) => {
+    try {
+      // console.log("👍👍",payload.email)
+      const {email,status}= payload;
+      console.log("👍👍",email,status)
+      // let data = authModel.find({ email: { $ne:existingUser} })
+      let data = await authModel.findOneAndUpdate({email} , {status} ,{
+        new: true
+      });
+      console.log(data)
+      return { data };
+    } catch (error) {
+      throw error;
+    }
+  };
+  export const authDelete = async (payload) => {
+    try {
+      // console.log("👍👍",payload.email)
+      const {email}= payload;
+      console.log("👍👍",email)
+      // let data = authModel.find({ email: { $ne:existingUser} })
+      let data = await authModel.findOneAndDelete(email, {new: true});
+      console.log(data)
+      return { data };
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const userService = {
     authRegister,
     authLogin,
-    
+    authUpdate,
+    authDelete
   }
   
   export default userService;

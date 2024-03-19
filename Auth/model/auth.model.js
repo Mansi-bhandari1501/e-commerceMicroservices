@@ -14,6 +14,11 @@ const authSchema = new mongoose.Schema({
         type: String,
         enum: ["customer", "admin","vendor","deliveryPatner"],
         default: "customer"
+    },
+    status:{
+        type:String,
+        enum: ["pending", "fulfilled"],
+        default: "pending"
     }
 },{timestamps: true})
 const authModel = mongoose.model('Auth',authSchema);

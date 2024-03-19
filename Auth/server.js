@@ -5,12 +5,13 @@ import connectDB from './config/db.js';
 import routes from "./routes/index.js"
 import bodyParser from 'body-parser';
 import Producer from './worker/producer.js';
+import consumeMessages from './worker/consumer.js';
 const app = express();
 
 dotenv.config()
 
 connectDB();
-
+consumeMessages();
 app.use(express.json())
 app.use(morgon('dev'));
 app.use(bodyParser.json("application/json"))

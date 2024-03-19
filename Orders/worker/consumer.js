@@ -12,8 +12,8 @@ const processors = {
 async function consumeMessages() {
     const connection = await amqp.connect("amqp://localhost")
     const channel = await connection.createChannel();
-    const exchangeName = configRabbit.rabbitMQ.exchangeName;
-    const exchangeType = configRabbit.rabbitMQ.exchangeType;
+    const exchangeName = process.env.RABBIT_SUB_USER_EXCHANGE_NAME;
+    const exchangeType = process.env.RABBIT_SUB_USER_EXCHANGE_TYPE;
     await channel.assertExchange(exchangeName, exchangeType);
 
     const q = await channel.assertQueue("usersQueue");

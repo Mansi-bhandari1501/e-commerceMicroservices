@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 router.get("/", (req, res) => {
-  res.json({ message: "Welcome to mern app" });
+  res.json({ message: "Welcome to users app" });
 });
 
 router.use("/users",userRoutes );

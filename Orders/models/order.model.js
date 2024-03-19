@@ -2,8 +2,9 @@ import mongoose from "mongoose"
 
 const orderSchema = new mongoose.Schema({
     user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"OrderUser" 
+        type:String
+        // type:mongoose.Schema.Types.ObjectId,
+        // ref:"OrderUser" 
     },
     shippingAddress:[{
         type: String,

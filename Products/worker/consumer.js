@@ -15,9 +15,13 @@ async function consumeMessages() {
     const exchangeName = configRabbit.rabbitMQ.exchangeName;
     const exchangeType = configRabbit.rabbitMQ.exchangeType;
     await channel.assertExchange(exchangeName, exchangeType);
+    await channel.assertExchange(exchangeName, exchangeType);
+    await channel.assertExchange(exchangeName, exchangeType);
 
     const q = await channel.assertQueue("usersQueue");
 
+    await channel.bindQueue(q.queue, exchangeName, "hello");
+    await channel.bindQueue(q.queue, exchangeName, "hello");
     await channel.bindQueue(q.queue, exchangeName, "hello");
 
     channel.consume(q.queue, async(msg) => {

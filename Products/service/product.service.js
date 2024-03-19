@@ -4,8 +4,8 @@ export const createProduct = async (payload) => {
   try {
     let { sellerId, productName,quantity,price,description ,productImage,category} = payload.body;
    
-
-    if (!sellerId || !productName ||!quantity || !price ||category) {
+ console.log(payload.body)
+    if (!sellerId || !productName ||!quantity || !price || !category ) {
       throw Object.assign(new Error(), {
         name: "BAD_REQUEST",
         message: "Invalid Payload",
@@ -53,7 +53,8 @@ export const updateProduct = async (payload) => {
   try {
     let data = await productModel.findByIdAndUpdate(payload.params, {
       $set: payload.body,
-    }).countDocuments();
+    })
+    console.log(data)
     return { data };
   } catch (error) {
     throw error;
@@ -113,7 +114,7 @@ export const fetchAllProducts = async (payload) => {
      const productsCount = await productModel.find().count()
      const product = await productModel.find({})
           .sort({ createdAt: 'descending' })
-          .populate('userid',"email firstName lasName")
+          // .populate('userid',"email firstName lasName")
           .lean()
           .limit(resultsPerPage)
           .skip(page * resultsPerPage)

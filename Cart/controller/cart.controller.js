@@ -1,6 +1,5 @@
 import errorHandler from "../lib/utils.js";
 import cartService from "../service/cart.service.js";
-import CartService from "../service/cart.service.js";
 
 export const createNewCart = async (req, res) => {
   // const { userId, title, body } = req.body;
@@ -23,14 +22,14 @@ export const fetchAllCart = async (req, res) => {
   try {
     console.log("fetch----->>>>>");
     // console.log(req)
-    const cart = await orderService.fetchAllCarts(req);
+    const cart = await cartService.fetchAllCart(req);
     console.log("RESPONSE", cart);
     if (!cart || cart.length === 0) {
       return res.status(204);
     }
     return res.status(200).json({
       posts: cart.cart,
-      count: cart.CartsCount, // handle in frontend also
+      count: cart.CartCount, // handle in frontend also
       // success: true,
     });
   } catch (error) {
@@ -41,7 +40,7 @@ export const fetchAllCart = async (req, res) => {
 
 export const fetchCart = async (req, res) => {
   try {
-    const response = await orderService.fetchCart(req);
+    const response = await cartService.fetchCart(req);
 
     if (!response) {
       return res.status(204);
@@ -58,7 +57,7 @@ export const fetchCart = async (req, res) => {
 
 export const deleteCart = async (req, res) => {
   try {
-    const response = await orderService.deleteCart(req);
+    const response = await cartService.deleteCart(req);
 
     return res.status(200).send({
       success: true,
@@ -74,7 +73,7 @@ export const deleteCart = async (req, res) => {
 
 export const updateCart = async (req, res) => {
   try {
-    const response = await orderService.updateCart(req);
+    const response = await cartService.updateCart(req);
     console.log(response.data);
     return res.status(200).send({
       success: true,

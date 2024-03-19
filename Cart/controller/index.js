@@ -1,6 +1,6 @@
-import userController from "./cart.controller.js" 
+import cartController from "./cart.controller.js" 
 
-export {
-    userController,
+export  {
+    cartController,
 
 }

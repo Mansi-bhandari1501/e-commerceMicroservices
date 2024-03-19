@@ -3,12 +3,11 @@ import mongoose from "mongoose"
 const productSchema = new mongoose.Schema({
     productName:{
         type: String,
-        required: true,
-        unique: true
+        // required: true,
     },
     quantity:{
         type:Number,
-        required: true
+        // required: true
     },
     // rating:{
     //     type:number,
@@ -29,8 +28,9 @@ const productSchema = new mongoose.Schema({
         type: String
     },
     sellerId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"seller"    
+        type: String
+        // type:mongoose.Schema.Types.ObjectId,
+        // ref:"seller"    
      },
 
 },{timestamps: true})

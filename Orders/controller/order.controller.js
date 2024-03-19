@@ -1,13 +1,13 @@
 import errorHandler from "../lib/utils.js";
 import orderService from "../service/order.service.js";
-import OrderService from "../service/order.service.js";
+// import OrderService from "../service/order.service.js";
 
 export const createNewOrder = async (req, res) => {
   // const { userId, title, body } = req.body;
 
   // console.log("body", req.body);
   try {
-    const response = await orderService.createPost(req);
+    const response = await orderService.createOrder(req);
     console.log(response);
     return res.status(201).json({
       success: true,

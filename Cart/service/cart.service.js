@@ -1,5 +1,4 @@
 import ProductCartModel from "../model/product.model.js";
-import cartsModel from "../models/cart.model.js";
 
   export const createCart = async (payload) => {
     try {
@@ -13,12 +12,7 @@ import cartsModel from "../models/cart.model.js";
         });
       }
   
-      // const files = payload.files;
-  
-      // const image1 = files?.image1 && (files?.image1[0]?.path || null);
-      // const image2 = files?.image2 && (files?.image2[0]?.path || null);
-      // const image3 = files?.image3 && (files?.image3[0]?.path || null);
-      // const image4 = files?.image4 && (files?.image4[0]?.path || null);
+ 
   
       const newCartData = {
         user: user,
@@ -50,7 +44,7 @@ import cartsModel from "../models/cart.model.js";
     try {
       let data = await ProductCartModel.findByIdAndUpdate(payload.params, {
         $set: payload.body,
-      }).countDocuments();
+      })
       return { data };
     } catch (error) {
       throw error;
@@ -110,7 +104,6 @@ import cartsModel from "../models/cart.model.js";
        const cartsCount = await ProductCartModel.find().count()
        const cart = await ProductCartModel.find({})
             .sort({ createdAt: 'descending' })
-            .populate('userid',"email firstName lasName")
             .lean()
             .limit(resultsPerPage)
             .skip(page * resultsPerPage)
@@ -125,10 +118,10 @@ import cartsModel from "../models/cart.model.js";
   export const fetchCart = async (payload) => {
     try {
       // console.log(payload.params)
-      const product = await cartsModel.findById(payload.params)
+      const cart = await ProductCartModel.findById(payload.params)
       // .populate("user","Name");
       // console.log(getpost)
-      return { product };
+      return { cart };
     } catch (error) {
       throw error;
     }

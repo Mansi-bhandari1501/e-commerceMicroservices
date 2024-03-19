@@ -7,7 +7,7 @@ export const createProduct = async (req, res) => {
   // console.log("body", req.body);
   try {
     // const { userId, title, body } = req.body;
-    const response = await productService.createPost(req);
+    const response = await productService.createProduct(req);
     console.log(response);
     return res.status(201).json({
       success: true,
@@ -29,8 +29,8 @@ export const fetchAllProduct = async (req, res) => {
       return res.status(204);
     }
     return res.status(200).json({
-      posts: product.product,
-      count: product.productsCount, // handle in frontend also
+      product: product.product,
+      productCount: product.productsCount, // handle in frontend also
       // success: true,
     });
   } catch (error) {
