@@ -1,6 +1,8 @@
 import userModel from "../models/user.model.js";
 import Producer from "../worker/producer.js";
 const producer = new Producer();
+
+const routingKey = "user"
 const registerUser = async (email,role) => {
     try {
       // const { email, role } = payload

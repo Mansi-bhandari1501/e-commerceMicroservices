@@ -1,4 +1,4 @@
-import userProcessor from "./product.processor.js" 
+import productProcessor from "./product.processor.js" 
 
-export default userProcessor
+export default productProcessor
 

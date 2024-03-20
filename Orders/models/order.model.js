@@ -2,23 +2,27 @@ import mongoose from "mongoose"
 
 const orderSchema = new mongoose.Schema({
     user:{
-        type:String
-        // type:mongoose.Schema.Types.ObjectId,
-        // ref:"OrderUser" 
+        
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"OrderUser" 
     },
     shippingAddress:[{
         type: String,
-        required: true,
+       
     }],
     bill:{
         type:String,
     }, 
+    uuid:{
+        type:String,
+    }, 
     products:[{
-        type:String
+        type:object
     }],
     status:{
         type:String,
-        enum:["placed","fullfilled","pending"]
+        enum:["placed","fullfilled","pending"],
+        default: "pending"
     }
 },{timestamps: true})
 const ordersModel = mongoose.model('Orders',orderSchema);

@@ -1,11 +1,12 @@
 import productModel from "../models/product.model.js";
+import productSellerModel from "../models/user.model.js";
 
 export const createProduct = async (payload) => {
   try {
-    let { sellerId, productName,quantity,price,description ,productImage,category} = payload.body;
-   
- console.log(payload.body)
-    if (!sellerId || !productName ||!quantity || !price || !category ) {
+    let { sellerId, productName, quantity, price, description, productImage, category } = payload.body;
+
+    console.log(payload.body)
+    if (!sellerId || !productName || !quantity || !price || !category) {
       throw Object.assign(new Error(), {
         name: "BAD_REQUEST",
         message: "Invalid Payload",
@@ -45,6 +46,27 @@ export const deleteProduct = async (payload) => {
     let data = await productModel.findByIdAndDelete(_id);
 
     return { data };
+  } catch (error) {
+    throw error;
+  }
+};
+export const registerProductSeller = async (payload) => {
+  try {
+    const { sellerId } = payload.data;
+    let existingSeller = await productSellerModel.findOne(sellerId);
+console.log("existingSELLER",existingSeller.sellerId)
+    console.log("👍😒😊😁👍😂😁", payload)
+    if (payload.data.role == "seller" && !existingSeller) {
+      const newSellerData = {
+        sellerId: payload.data._id,
+        sellerAddress: payload.data.address,
+        sellerName: payload.data.name
+      }
+      let seller = await new productSellerModel(newSellerData).save();
+      return { seller };
+    }
+
+    // return { data };
   } catch (error) {
     throw error;
   }
@@ -104,25 +126,25 @@ export const fetchAllProducts = async (payload) => {
 
   try {
     // console.log("HELLO",payload.user._id )
-    console.log("payload------>>>>",payload.query)
-      let page = Number(payload.query.page) ;
-      let resultsPerPage = 2;
-      console.log("PAGESS",page)
-      // if(!page || page.trim() === '') {
-      //   page = 0;
-      // }
-     const productsCount = await productModel.find().count()
-     const product = await productModel.find({})
-          .sort({ createdAt: 'descending' })
-          // .populate('userid',"email firstName lasName")
-          .lean()
-          .limit(resultsPerPage)
-          .skip(page * resultsPerPage)
-          // console.log(posts)
-     return {product,productsCount}
+    console.log("payload------>>>>", payload.query)
+    let page = Number(payload.query.page);
+    let resultsPerPage = 2;
+    console.log("PAGESS", page)
+    // if(!page || page.trim() === '') {
+    //   page = 0;
+    // }
+    const productsCount = await productModel.find().count()
+    const product = await productModel.find({})
+      .sort({ createdAt: 'descending' })
+      // .populate('userid',"email firstName lasName")
+      .lean()
+      .limit(resultsPerPage)
+      .skip(page * resultsPerPage)
+    // console.log(posts)
+    return { product, productsCount }
   }
   catch (error) {
-      throw error;
+    throw error;
   }
 };
 
@@ -144,6 +166,7 @@ const productService = {
   deleteProduct,
   fetchAllProducts,
   fetchProduct,
+  registerProductSeller
 };
 
 export default productService;

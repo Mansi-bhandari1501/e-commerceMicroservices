@@ -21,7 +21,7 @@ app.use('/', routes);
 
 consumeMessages()
 
-const PORT = process.env.PORT || 8002;
+const PORT = process.env.PORT || 8003;
 app.listen(PORT, () => {
     console.log(`Server Running on ${process.env.DEV_MODE} mode on port ${PORT}`.bgCyan.white);
 })

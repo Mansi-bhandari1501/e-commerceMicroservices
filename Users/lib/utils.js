@@ -15,6 +15,11 @@ const errorHandler = (res,error) => {
         success: false,
         message: error.message,
       })
+    } else if(error.name === 'NOT_FOUND') {
+      return res.status(404).send({
+        success: false,
+        message: error.message,
+      })
     } else {
       return res.status(500).send({
         success: false,

@@ -1,7 +1,7 @@
 export default  {
     rabbitMQ: {
       url: "amqp://localhost",
-      exchangeName: "authsExchange",
+      exchangeName: "orderExchange",
       exchangeType:"direct"
     },
   };

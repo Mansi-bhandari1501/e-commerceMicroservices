@@ -19,8 +19,8 @@ class Producer {
         if (!this.channel) {
             await this.createChannel()
         }
-        const exchangeName = configRabbit.rabbitMQ.exchangeName;
-        const exchangeType = configRabbit.rabbitMQ.exchangeType;
+        const exchangeName = process.env.RABBIT_PUB_ORDER_EXCHANGE_NAME;
+        const exchangeType = process.env.RABBIT_EXCHANGE_TYPE;
         await this.channel.assertExchange(exchangeName, exchangeType);
 
         const properties = {
@@ -39,7 +39,7 @@ class Producer {
         );
 
         console.log("MESSAGE", message)
-        console.log(`the message ${message.email} is sent to exchange ${exchangeName} and routing key is ${routingKey} AND SIGNATURE IS ${signature}`);
+        console.log(`the message ${message} is sent to exchange ${exchangeName} and routing key is ${routingKey} AND SIGNATURE IS ${signature}`);
     }
 
 }

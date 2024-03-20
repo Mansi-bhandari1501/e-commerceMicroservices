@@ -1,12 +1,25 @@
-import { userService } from "../service/index.js";
+import productService from "../service/product.service.js";
 
-export const registerNewUser = async ({email,role}) => {
+export const registerNewSeller = async (payload) => {
     // const {userDetails = {}} = payload
-    console.log(email,role)
+    console.log("jgweukfkuwegfkwu",payload)
     try {
-      const response = await userService.registerUser(email,role);
+      const response = await productService.registerProductSeller(payload);
       if (!response) {
-        throw new Error('User could not be created.');
+        throw new Error('Seller already existed.');
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+export const registerOrder = async (payload) => {
+    // const {userDetails = {}} = payload
+    console.log("jgweukfkuwegfkwu",payload)
+    try {
+      const response = await productService.registerProductSeller(payload);
+      if (!response) {
+        throw new Error('Seller already existed.');
       }
     } catch (error) {
       console.log(error);
@@ -14,7 +27,8 @@ export const registerNewUser = async ({email,role}) => {
     }
   };
 
-  const userProcessor ={
-    registerNewUser
+  const productProcessor ={
+    registerNewSeller,
+    registerOrder
   }
-  export default userProcessor;    
+  export default productProcessor;    
